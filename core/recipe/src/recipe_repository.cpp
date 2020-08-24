@@ -1,5 +1,7 @@
 #include <recipe/recipe_repository.h>
 
+#include <algorithm>
+
 namespace tabetai2::core::recipe {
 
 using namespace ingredient;
@@ -24,23 +26,13 @@ std::optional<std::vector<Recipe>> RecipeRepository::find_by_ingredients(
         const std::vector<Ingredient>& ingredients) const {
     auto recipes = m_database->get_all();
 
-    // TODO Use some std algorithm instead?
     std::vector<Recipe> recipes_found;
-    for (auto& recipe : recipes) {
-        for (auto& recipe_ingredient : recipe.ingredients()) {
-            bool found_all = true;
-            for (auto& ingredient : ingredients) {
-                if (recipe_ingredient.id() != ingredient.id()) {
-                    found_all = false;
-                    break;
-                }
-            }
-
-            if (found_all) {
-                recipes_found.push_back(recipe);
-            }
-        }
-    }
+    std::copy_if(recipes.cbegin(), recipes.cend(), std::back_inserter(recipes_found), [&](const auto &r) {
+        const auto &recipe_ingredients = r.ingredients();
+        return std::all_of(recipe_ingredients.cbegin(), recipe_ingredients.cend(), [&](const auto &i) {
+            std::find(ingredients.cbegin(), ingredients.cend(), i) != std::end(ingredients);
+        });
+    });
 
     if (recipes_found.empty()) {
         return {};
