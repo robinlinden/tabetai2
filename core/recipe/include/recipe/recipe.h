@@ -12,15 +12,15 @@ public:
     Recipe(int id, std::string name, std::vector<ingredient::Ingredient> ingredients, std::vector<std::string> steps);
 
     int id() const;
-    std::string name() const;
-    std::vector<ingredient::Ingredient> ingredients() const;
-    std::vector<std::string> steps() const;
+    const std::string &name() const;
+    const std::vector<ingredient::Ingredient> &ingredients() const;
+    const std::vector<std::string> &steps() const;
 
 private:
     const int m_id;
-    std::string m_name;
-    std::vector<ingredient::Ingredient> m_ingredients;
-    std::vector<std::string> m_steps;
+    const std::string m_name;
+    const std::vector<ingredient::Ingredient> m_ingredients;
+    const std::vector<std::string> m_steps;
 };
 
 }

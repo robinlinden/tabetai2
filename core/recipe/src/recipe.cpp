@@ -18,15 +18,15 @@ int Recipe::id() const {
     return m_id;
 }
 
-std::string Recipe::name() const {
+const std::string &Recipe::name() const {
     return m_name;
 }
 
-std::vector<ingredient::Ingredient> Recipe::ingredients() const {
+const std::vector<ingredient::Ingredient> &Recipe::ingredients() const {
     return m_ingredients;
 }
 
-std::vector<std::string> Recipe::steps() const {
+const std::vector<std::string> &Recipe::steps() const {
     return m_steps;
 }
 
